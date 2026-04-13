@@ -1,5 +1,5 @@
 from django.contrib import admin
+from .models import RegistroPeso, RegistroAlimento
 
-from .models import Alimento
-
-admin.site.register(Alimento)
+admin.site.register(RegistroPeso)
+admin.site.register(RegistroAlimento)

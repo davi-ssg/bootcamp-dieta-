@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Meu App de Dieta</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 40px auto; padding: 20px; }
+        .bloco { border: 1px solid #ccc; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
+        button { padding: 10px 15px; background: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h1>Meu App de Dieta</h1>
+        <form method="POST" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit" style="background: #dc3545;">Sair</button>
+        </form>
+    </div>
+    
+    <p>Bem-vindo(a), <strong>{{ user.username }}</strong>!</p>
+
+    <div class="bloco">
+        <h2>Registrar Peso de Hoje</h2>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form_peso.as_p }}
+            <button type="submit" name="btn_peso">Salvar Peso</button>
+        </form>
+    </div>
+
+    <div class="bloco">
+        <h2>O que você comeu hoje?</h2>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form_alimento.as_p }}
+            <button type="submit" name="btn_alimento">Salvar Alimento</button>
+        </form>
+    </div>
+
+    <h2>Seu Histórico</h2>
+    
+    <div style="display: flex; gap: 40px;">
+        <div>
+            <h3>Pesos:</h3>
+            <ul>
+                {% for p in pesos %}
+                    <li>{{ p.data|date:"d/m/Y" }} - {{ p.peso }} kg</li>
+                {% empty %}
+                    <li>Nenhum peso registrado.</li>
+                {% endfor %}
+            </ul>
+        </div>
+        
+        <div>
+            <h3>Alimentos:</h3>
+            <ul>
+                {% for a in alimentos %}
+                    <li>{{ a.data|date:"d/m/Y" }} - {{ a.nome_alimento }} ({{ a.calorias }} kcal)</li>
+                {% empty %}
+                    <li>Nenhum alimento registrado.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+</body>
+</html>
